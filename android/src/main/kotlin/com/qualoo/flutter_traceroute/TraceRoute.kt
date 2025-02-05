@@ -35,6 +35,7 @@ object TraceRoute {
                     "event" to "update",
                     "id" to key,
                     "hop" to lastHop,
+                    "ipAddress" to "",
                     "avg" to 0.0,
                     "stdDev" to 0.0,
                     "best" to 0.0,
@@ -63,7 +64,7 @@ object TraceRoute {
             return mapOf(
                 "event" to "update",
                 "id" to key,
-                "ip" to ip,
+                "ipAddress" to ip,
                 "hop" to lastHop,
                 "avg" to sum,
                 "stdDev" to stdDev,
