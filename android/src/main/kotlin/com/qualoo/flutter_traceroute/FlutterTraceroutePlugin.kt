@@ -60,7 +60,7 @@ class FlutterTraceroutePlugin: FlutterPlugin, MethodCallHandler {
   }
 
   private fun doTraceRouteAsync(host: String, count: Int, useIcmp: Boolean) {
-    val maxTtl = 30
+    val maxTtl = 20
     val maxSimultaneous = 64
     val params = arrayOf("-m", maxTtl.toString(), "-N", maxSimultaneous.toString(), "-q", count.toString(), if (useIcmp) "-I" else "", host)
     Log.d("MyTag", "doTraceRouteAsync=" + params);
