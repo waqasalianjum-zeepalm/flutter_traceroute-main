@@ -42,8 +42,6 @@ android {
         }
     }
 
-    ndkVersion '23.1.7779620'
-
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8
     }
