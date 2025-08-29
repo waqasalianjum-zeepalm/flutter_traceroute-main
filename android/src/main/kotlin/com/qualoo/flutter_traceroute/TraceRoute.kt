@@ -66,7 +66,7 @@ object TraceRoute {
                 "id" to key,
                 "ipAddress" to ip,
                 "hop" to lastHop,
-                "avg" to sum,
+                "avg" to avg,
                 "stdDev" to stdDev,
                 "best" to best,
                 "worst" to worst,
