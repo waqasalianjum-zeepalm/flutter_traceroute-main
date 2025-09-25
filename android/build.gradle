@@ -7,7 +7,6 @@ buildscript {
         google()
         mavenCentral()
     }
-
     dependencies {
         classpath("com.android.tools.build:gradle:8.1.0")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
@@ -31,21 +30,36 @@ android {
 
     compileSdk = 34
 
+    defaultConfig {
+        // 64-bit NDK baseline; keeps things simpler for modern toolchains
+        minSdk = 23
+
+        // Build only the ABI you ship for (adjust if you need more)
+        ndk {
+            abiFilters "arm64-v8a"
+        }
+
+        // If you ever flip to CMake, you can add linker flags here via
+        // externalNativeBuild.cmake.arguments, but we're using ndkBuild.
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+        // (No desugaring needed here typically)
     }
-
-    externalNativeBuild {
-        ndkBuild {
-          path 'src/main/jni/Android.mk'
-        }
-    }
-
-    ndkVersion '23.1.7779620'
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8
+    }
+
+    // IMPORTANT: use a recent NDK (r28+) so lld fully supports 16K paging.
+    ndkVersion '28.0.12433566'
+
+    externalNativeBuild {
+        ndkBuild {
+            path 'src/main/jni/Android.mk'
+        }
     }
 
     sourceSets {
@@ -53,24 +67,19 @@ android {
         test.java.srcDirs += "src/test/kotlin"
     }
 
-    defaultConfig {
-        minSdk = 21
-    }
-
-    dependencies {
-        testImplementation("org.jetbrains.kotlin:kotlin-test")
-        testImplementation("org.mockito:mockito-core:5.0.0")
-    }
-
     testOptions {
         unitTests.all {
             useJUnitPlatform()
-
             testLogging {
-               events "passed", "skipped", "failed", "standardOut", "standardError"
-               outputs.upToDateWhen {false}
-               showStandardStreams = true
+                events "passed", "skipped", "failed", "standardOut", "standardError"
+                outputs.upToDateWhen { false }
+                showStandardStreams = true
             }
         }
     }
+}
+
+dependencies {
+    testImplementation("org.jetbrains.kotlin:kotlin-test")
+    testImplementation("org.mockito:mockito-core:5.0.0")
 }
